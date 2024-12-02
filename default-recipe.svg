@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="800" height="400" viewBox="0 0 800 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <rect width="800" height="400" fill="#F5F5F5"/>
+    <path d="M400 150C426.51 150 448 171.49 448 198C448 224.51 426.51 246 400 246C373.49 246 352 224.51 352 198C352 171.49 373.49 150 400 150Z" fill="#4CAF50" fill-opacity="0.2"/>
+    <path d="M380 198C380 209.046 389.954 219 401 219" stroke="#4CAF50" stroke-width="4" stroke-linecap="round"/>
+    <text x="400" y="300" font-family="Arial" font-size="24" fill="#666" text-anchor="middle">Recipe Image Not Available</text>
+</svg>
