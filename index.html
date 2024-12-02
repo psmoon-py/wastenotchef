@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WasteNotChef - Zero-Waste Recipe Generator</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <img src="images/logo.svg" alt="WasteNotChef Logo">
+            <h1>WasteNotChef</h1>
+        </div>
+    </header>
+
+    <main>
+        <section class="ingredient-input">
+            <h2>What's in Your Kitchen?</h2>
+            <div class="input-container">
+                <input type="text" id="ingredient" placeholder="Enter an ingredient...">
+                <button onclick="addIngredient()">Add</button>
+            </div>
+            <div id="ingredient-tags" class="ingredient-tags"></div>
+            <button id="find-recipes" class="primary-button" onclick="findRecipes()">Find Recipes</button>
+            <div id="errorMessage" class="error-message"></div>
+        </section>
+
+        <section class="recipes-container" id="recipes-container">
+            <div class="recipes-header">
+                <h2>Recipe Suggestions</h2>
+                <div class="sort-controls">
+                    <select id="sort-recipes" class="sort-dropdown">
+                        <option value="relevance">Most Relevant</option>
+                        <option value="extraAsc">Least Extra Ingredients</option>
+                        <option value="extraDesc">Most Extra Ingredients</option>
+                        <option value="totalAsc">Least Total Ingredients</option>
+                        <option value="totalDesc">Most Total Ingredients</option>
+                        <option value="nameAsc">Name (A-Z)</option>
+                        <option value="nameDesc">Name (Z-A)</option>
+                        <option value="matchScore">Best Match</option>
+                    </select>
+                </div>
+            </div>
+            <div id="loadingSpinner" class="loading-spinner">
+                <div class="spinner"></div>
+                <p>Finding delicious recipes...</p>
+            </div>
+            <div id="recipe-results"></div>
+            
+            <!-- Pagination Controls -->
+            <div class="pagination-controls">
+                <button id="prev-page" class="btn" disabled>Previous Page</button>
+                <span id="page-info">Page 1</span>
+                <button id="next-page" class="btn">Next Page</button>
+            </div>
+
+            <!-- Recipe Modal -->
+            <div id="recipe-modal" class="modal">
+                <div class="modal-content">
+                    <span class="close">&times;</span>
+                    <div id="modal-recipe-content"></div>
+                </div>
+            </div>
+        </section>
+
+        <section class="tips-container">
+            <h2>Waste-Saving Tips</h2>
+            <div class="tips-grid" id="tips-grid"></div>
+        </section>
+    </main>
+
+    <footer>
+        <p> 2024 WasteNotChef - Reduce Food Waste, One Recipe at a Time</p>
+    </footer>
+
+    <script src="js/recipes.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
