@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <!-- Chef's Hat -->
+    <path d="M256 100C326.692 100 384 157.308 384 228C384 298.692 326.692 356 256 356C185.308 356 128 298.692 128 228C128 157.308 185.308 100 256 100Z" fill="#FFFFFF" stroke="#4CAF50" stroke-width="24"/>
+    <path d="M176 228C176 276.601 215.399 316 264 316" stroke="#4CAF50" stroke-width="24" stroke-linecap="round"/>
+    
+    <!-- Leaves -->
+    <path d="M368 156C408 116 428 136 388 176C348 216 328 196 368 156Z" fill="#4CAF50"/>
+    <path d="M144 156C104 116 84 136 124 176C164 216 184 196 144 156Z" fill="#4CAF50"/>
+</svg>
