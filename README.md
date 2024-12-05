@@ -18,3 +18,6 @@ A web application that helps users reduce food waste by suggesting recipes based
 - CSS3
 - JavaScript
 - Local Storage for data persistence
+
+## Website (netlify)
+Check out the website working at https://wastenotchef.netlify.app/
