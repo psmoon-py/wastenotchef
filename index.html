@@ -6,41 +6,102 @@
     <title>WasteNotChef - Zero-Waste Recipe Generator</title>
     <link rel="stylesheet" href="css/styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
     <header>
         <div class="logo">
-            <img src="images/logo.svg" alt="WasteNotChef Logo">
-            <h1>WasteNotChef</h1>
+            <img src="images/chef-logo.png" alt="WasteNotChef Chef Logo">
+            <a href="index.html">
+                <h1>WasteNotChef</h1>
+            </a>
         </div>
+        <nav class="main-nav">
+            <ul class="nav-bar">
+                <li><a href="#recipes-container">Recipes</a></li>
+                <li><a href="#tips-container">Tips</a></li>
+            </ul>
+        </nav>
     </header>
-
     <main>
         <section class="ingredient-input">
-            <h2>What's in Your Kitchen?</h2>
+            <h2>Enter Your Ingredients</h2>
             <div class="input-container">
                 <input type="text" id="ingredient" placeholder="Enter an ingredient...">
                 <button onclick="addIngredient()">Add</button>
             </div>
             <div id="ingredient-tags" class="ingredient-tags"></div>
+            <div class="sustainability-tips-container">
+                <h3><i class="fas fa-leaf"></i> Sustainability Tips</h3>
+                <div class="tips-grid" id="sustainability-tips">
+                    <!-- Tips will be added here dynamically -->
+                </div>
+                <div class="preservation-advice" id="preservation-advice">
+                    <h3><i class="fas fa-box"></i> Storage & Preservation Guide</h3>
+                    <div class="preservation-grid">
+                        <!-- Preservation tips will be added here -->
+                    </div>
+                </div>
+            </div>
             <button id="find-recipes" class="primary-button" onclick="findRecipes()">Find Recipes</button>
             <div id="errorMessage" class="error-message"></div>
         </section>
+        <!-- Temporarily Hidden Community Section -->
+        <!--<section class="community-recipes" id="community-recipes">
+            <div class="section-header">
+                <h2><i class="fas fa-users"></i> Community Favorites</h2>
+                <button class="add-recipe-btn" onclick="openRecipeForm()">
+                    <i class="fas fa-plus"></i> Share Your Recipe
+                </button>
+            </div>
+            <div class="community-grid" id="community-grid">-->
+                <!--Community recipes will be loaded here-->
+            <!--</div>
+        </section>-->
 
         <section class="recipes-container" id="recipes-container">
             <div class="recipes-header">
                 <h2>Recipe Suggestions</h2>
-                <div class="sort-controls">
-                    <select id="sort-recipes" class="sort-dropdown">
-                        <option value="relevance">Most Relevant</option>
-                        <option value="extraAsc">Least Extra Ingredients</option>
-                        <option value="extraDesc">Most Extra Ingredients</option>
-                        <option value="totalAsc">Least Total Ingredients</option>
-                        <option value="totalDesc">Most Total Ingredients</option>
-                        <option value="nameAsc">Name (A-Z)</option>
-                        <option value="nameDesc">Name (Z-A)</option>
-                        <option value="matchScore">Best Match</option>
-                    </select>
+                <div class="controls-container">
+                    <div class="filters-section">
+                        <h3>Filter Recipes</h3>
+                        <div class="filter-row">
+                            <div class="filter-group">
+                                <label for="max-time">Maximum Cooking Time</label>
+                                <select id="max-time" class="filter-dropdown">
+                                    <option value="any">Any Time</option>
+                                    <option value="15">15 minutes or less</option>
+                                    <option value="30">30 minutes or less</option>
+                                    <option value="45">45 minutes or less</option>
+                                    <option value="60">1 hour or less</option>
+                                    <option value="90">1.5 hours or less</option>
+                                    <option value="120">2 hours or less</option>
+                                </select>
+                            </div>
+                            <div class="filter-group">
+                                <label for="dietary-pref">Dietary Preferences</label>
+                                <select id="dietary-pref" class="filter-dropdown">
+                                    <option value="all">All Diets</option>
+                                    <option value="vegetarian">Vegetarian</option>
+                                    <option value="vegan">Vegan</option>
+                                    <option value="gluten-free">Gluten-Free</option>
+                                    <option value="dairy-free">Dairy-Free</option>
+                                    <option value="low-carb">Low-Carb</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="sort-section">
+                        <h3>Sort Recipes</h3>
+                        <select id="sort-recipes" class="sort-dropdown">
+                            <option value="relevance">Most Relevant</option>
+                            <option value="time">Cooking Time (Quickest)</option>
+                            <option value="timeDesc">Cooking Time (Longest)</option>
+                            <option value="extraAsc">Least Extra Ingredients</option>
+                            <option value="extraDesc">Most Extra Ingredients</option>
+                            <option value="matchScore">Best Match</option>
+                        </select>
+                    </div>
                 </div>
             </div>
             <div id="loadingSpinner" class="loading-spinner">
@@ -65,9 +126,136 @@
             </div>
         </section>
 
-        <section class="tips-container">
-            <h2>Waste-Saving Tips</h2>
-            <div class="tips-grid" id="tips-grid"></div>
+        <!-- Recipe Submission Modal -->
+        <div id="recipe-form-modal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2>Share Your Zero-Waste Recipe</h2>
+                <form id="recipe-submit-form" onsubmit="submitRecipe(event)">
+                    <div class="form-group">
+                        <label for="recipe-name">Recipe Name</label>
+                        <input type="text" id="recipe-name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="recipe-ingredients">Ingredients</label>
+                        <textarea id="recipe-ingredients" placeholder="One ingredient per line" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="recipe-instructions">Instructions</label>
+                        <textarea id="recipe-instructions" placeholder="Step by step instructions" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="recipe-tips">Zero-Waste Tips</label>
+                        <textarea id="recipe-tips" placeholder="Share your tips for reducing waste with this recipe"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="recipe-image">Image URL (optional)</label>
+                        <input type="url" id="recipe-image" placeholder="https://...">
+                    </div>
+                    <button type="submit" class="primary-button">Submit Recipe</button>
+                </form>
+            </div>
+        </div>
+
+        <section class="tips-container" id="tips-container">
+            <h2><i class="fas fa-lightbulb"></i> Waste-Saving Tips</h2>
+            <div class="tips-grid" id="tips-grid">
+                <!-- Fruits Card -->
+                <div class="tip-card">
+                    <div class="tip-card-inner">
+                        <div class="tip-card-front">
+                            <div class="tip-category">Fruits</div>
+                            <i class="fas fa-apple-alt tip-icon"></i>
+                            <h3 class="tip-title">Fruit Storage</h3>
+                            <p class="tip-description"><a href="blog-fruit-storage.html">Click to learn how to extend the life of your fruits</a></p>
+                        </div>
+                        <div class="tip-card-back">
+                            <h3 class="tip-title">Fruit Storage Tips</h3>
+                            <p class="tip-description">Store apples separately - they release ethylene gas that ripens other produce. Keep bananas away from other fruits and wrap the stems in plastic wrap. Store berries unwashed and only rinse before eating.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Vegetables Card -->
+                <div class="tip-card">
+                    <div class="tip-card-inner">
+                        <div class="tip-card-front">
+                            <div class="tip-category">Vegetables</div>
+                            <i class="fas fa-carrot tip-icon"></i>
+                            <h3 class="tip-title">Vegetable Storage</h3>
+                            <p class="tip-description"><a href="blog-vegetable-storage.html">Click to discover vegetable preservation tricks</a></p>
+                        </div>
+                        <div class="tip-card-back">
+                            <h3 class="tip-title">Vegetable Storage Tips</h3>
+                            <p class="tip-description">Store root vegetables in a cool, dark place. Keep lettuce and herbs fresh by wrapping them in slightly damp paper towels. Trim and store carrots and celery in water to maintain crispness.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Dairy Card -->
+                <div class="tip-card">
+                    <div class="tip-card-inner">
+                        <div class="tip-card-front">
+                            <div class="tip-category">Dairy</div>
+                            <i class="fas fa-cheese tip-icon"></i>
+                            <h3 class="tip-title">Dairy Products</h3>
+                            <p class="tip-description"><a href="blog-dairy-storage.html">Click for dairy preservation methods</a></p>
+                        </div>
+                        <div class="tip-card-back">
+                            <h3 class="tip-title">Dairy Storage Tips</h3>
+                            <p class="tip-description">Store cheese in wax paper or cheese paper, not plastic wrap. Keep milk away from the door to maintain temperature. Freeze yogurt for smoothies before it expires. Store butter in an airtight container.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bread Card -->
+                <div class="tip-card">
+                    <div class="tip-card-inner">
+                        <div class="tip-card-front">
+                            <div class="tip-category">Bread</div>
+                            <i class="fas fa-bread-slice tip-icon"></i>
+                            <h3 class="tip-title">Bread Storage</h3>
+                            <p class="tip-description"><a href="blog-bread-storage.html">Click to learn bread preservation tips</a></p>
+                        </div>
+                        <div class="tip-card-back">
+                            <h3 class="tip-title">Bread Storage Tips</h3>
+                            <p class="tip-description">Store bread in a bread box or paper bag, not plastic. Freeze sliced bread and toast directly from frozen. Make breadcrumbs from stale bread. Keep artisan bread cut-side down on a cutting board.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Herbs Card -->
+                <div class="tip-card">
+                    <div class="tip-card-inner">
+                        <div class="tip-card-front">
+                            <div class="tip-category">Herbs</div>
+                            <i class="fas fa-seedling tip-icon"></i>
+                            <h3 class="tip-title">Fresh Herbs</h3>
+                            <p class="tip-description"><a href="blog-herb-storage.html">Click for herb storage solutions</a></p>
+                        </div>
+                        <div class="tip-card-back">
+                            <h3 class="tip-title">Herb Storage Tips</h3>
+                            <p class="tip-description">Store hardy herbs like rosemary in damp paper towels. Keep basil at room temperature in water like flowers. Freeze herbs in olive oil in ice cube trays. Dry herbs by hanging them upside down.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Leftovers Card -->
+                <div class="tip-card">
+                    <div class="tip-card-inner">
+                        <div class="tip-card-front">
+                            <div class="tip-category">Leftovers</div>
+                            <i class="fas fa-box tip-icon"></i>
+                            <h3 class="tip-title">Leftover Management</h3>
+                            <p class="tip-description"><a href="blog-leftover-management.html">Click for leftover organization tips</a></p>
+                        </div>
+                        <div class="tip-card-back">
+                            <h3 class="tip-title">Leftover Management Tips</h3>
+                            <p class="tip-description">Label containers with contents and date. Use clear containers to see what's inside. Organize fridge with "eat first" section. Freeze portions in reusable containers. Plan weekly leftover meals.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </section>
     </main>
 
